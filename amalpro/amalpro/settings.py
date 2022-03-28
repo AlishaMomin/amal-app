@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from djongo import *
+from urllib.parse import quote_plus
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -73,13 +76,30 @@ WSGI_APPLICATION = 'amalpro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+   'default': {
+        'ENGINE' : 'djongo',
+        'NAME' : 'amaldb', #as named on server
+        # 'HOST' : 'mongodb+srv://hammad:hammad123@amal.wo6qq.mongodb.net/amaldb?retryWrites=true&w=majority',
+        # #that is your connection link with your username,password and db name,here i created a db using mlabs of mongodb
+        # 'USER' : 'hammad',
+        # 'PASSWORD' : 'hammad123',
+        'CLIENT': {
+            'host': "mongodb+srv://hammad:hammad123@amal.wo6qq.mongodb.net/amaldb?retryWrites=true&w=majority",
+            'authMechanism': 'SCRAM-SHA-1',
+        }
+   }
 }
 
+
+# mongodb+srv://hammad:hammad123@amal.wo6qq.mongodb.net/amaldb?retryWrites=true&w=majority
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
