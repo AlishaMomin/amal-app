@@ -23,7 +23,9 @@ def ApiOverview(request):
     }
   
     return Response(api_urls)
-    
+
+# Customer API GET, POST, PUT, DELETE
+
 @api_view(['GET', 'POST', 'DELETE'])
 def customer_list(request):
     # GET list of Customers, POST a new Customer, DELETE all Customers
@@ -91,3 +93,70 @@ def customer_list_published(request):
     if request.method == 'GET': 
         customers_serializer = CustomerSerializer(customers, many=True)
         return JsonResponse(customers_serializer.data, safe=False)
+
+# Service Providers API GET, POST, PUT, DELETE
+
+@api_view(['GET', 'POST', 'DELETE'])
+def serviceproviders_list(request):
+    # GET list of ServiceProviders, POST a new ServiceProvider, DELETE all ServiceProviders
+
+    if request.method == 'GET':
+        serviceproviders = ServiceProviders.objects.all()
+        
+        title = request.GET.get('title', None)
+        if title is not None:
+            serviceproviders = serviceproviders.filter(title__icontains=title)
+        
+        serviceproviders_serializer = ServiceProviderSerializer(serviceproviders, many=True)
+        return JsonResponse(serviceproviders_serializer.data, safe=False)
+        # 'safe=False' for objects serialization
+
+    elif request.method == 'POST':
+        serviceproviders_data = JSONParser().parse(request)
+        serviceproviders_serializer = ServiceProviderSerializer(data=serviceproviders_data)
+        if serviceproviders_serializer.is_valid():
+            serviceproviders_serializer.save()
+            return JsonResponse(serviceproviders_serializer.data, status=status.HTTP_201_CREATED) 
+        return JsonResponse(serviceproviders_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        count = ServiceProviders.objects.all().delete()
+        return JsonResponse({'message': '{} Service Providers were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def serviceproviders_detail(request, pk):
+    # find serviceproviders by pk (id)
+    try: 
+        serviceproviders = ServiceProviders.objects.get(pk=pk) 
+    except ServiceProviders.DoesNotExist: 
+        return JsonResponse({'message': 'The Service Provider does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+ 
+    # GET / PUT / DELETE serviceproviders
+    # ... serviceproviders = ServiceProviders.objects.get(pk=pk)
+ 
+    if request.method == 'GET': 
+        serviceproviders_serializer = ServiceProviderSerializer(serviceproviders) 
+        return JsonResponse(serviceproviders_serializer.data)
+    
+    elif request.method == 'PUT': 
+        serviceproviders_data = JSONParser().parse(request) 
+        serviceproviders_serializer = ServiceProviderSerializer(serviceproviders, data=serviceproviders_data) 
+        if serviceproviders_serializer.is_valid(): 
+            serviceproviders_serializer.save() 
+            return JsonResponse(serviceproviders_serializer.data) 
+        return JsonResponse(serviceproviders_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE': 
+        ServiceProviders.delete() 
+        return JsonResponse({'message': 'Service Provider was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+        
+@api_view(['GET'])
+def serviceproviders_list_published(request):
+    # GET all published ServiceProviders
+
+    serviceproviders = ServiceProviders.objects.filter(published=True)
+        
+    if request.method == 'GET': 
+        serviceproviders_serializer = ServiceProviderSerializer(serviceproviders, many=True)
+        return JsonResponse(serviceproviders_serializer.data, safe=False)

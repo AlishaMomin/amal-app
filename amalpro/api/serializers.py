@@ -13,15 +13,32 @@ class CustomerSerializer(serializers.ModelSerializer):
             'ReviewCustomer'
         )
 
-class CustomerSerializer(serializers.ModelSerializer):
+class ServiceProviderSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Customer
+        model = ServiceProviders
         fields = (
-            'fullNameCustomer',
-            'cnicCustomer',
-            'addressCustomer',
-            'cityCustomer',
-            'dobCustomer',
-            'ReviewCustomer'
+            'fullNameSP',
+            'cnicSP',
+            'addressSP',
+            'citySP',
+            'dobSP',
+            'languageSP'
         )
 
+class BookingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = (
+            'bookingDate',
+            'bookingSlot',
+            'serviceType',
+            'ServiceProviderID'
+        )
+
+class ListingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Listing
+        fields = (
+            'Charges',
+            'serviceType',
+        )    
