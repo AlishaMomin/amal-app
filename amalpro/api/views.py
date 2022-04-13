@@ -11,7 +11,6 @@ from .serializers import *
 
 
 # Create your views here.
-
   
 @api_view(['GET'])
 def ApiOverview(request):
@@ -80,8 +79,6 @@ def customer_detail(request, pk):
     elif request.method == 'DELETE': 
         customer.delete() 
         return JsonResponse({'message': 'Customer was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
-    
-
     
         
 @api_view(['GET'])
@@ -160,3 +157,70 @@ def serviceproviders_list_published(request):
     if request.method == 'GET': 
         serviceproviders_serializer = ServiceProviderSerializer(serviceproviders, many=True)
         return JsonResponse(serviceproviders_serializer.data, safe=False)
+
+# Booking API GET, POST, PUT, DELETE
+
+@api_view(['GET', 'POST', 'DELETE'])
+def booking_list(request):
+    # GET list of Bookings, POST a new Booking, DELETE all Bookings
+
+    if request.method == 'GET':
+        bookings = Booking.objects.all()
+        
+        title = request.GET.get('title', None)
+        if title is not None:
+            bookings = bookings.filter(title__icontains=title)
+        
+        bookings_serializer = BookingSerializer(bookings, many=True)
+        return JsonResponse(bookings_serializer.data, safe=False)
+        # 'safe=False' for objects serialization
+
+    elif request.method == 'POST':
+        bookings_data = JSONParser().parse(request)
+        bookings_serializer = BookingSerializer(data=bookings_data)
+        if bookings_serializer.is_valid():
+            bookings_serializer.save()
+            return JsonResponse(bookings_serializer.data, status=status.HTTP_201_CREATED) 
+        return JsonResponse(bookings_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        count = Booking.objects.all().delete()
+        return JsonResponse({'message': '{} Bookings were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def bookings_detail(request, pk):
+    # find Bookings by pk (id)
+    try: 
+        bookings = Booking.objects.get(pk=pk) 
+    except Booking.DoesNotExist: 
+        return JsonResponse({'message': 'The Booking does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+ 
+    # GET / PUT / DELETE bookings
+    # ... bookings = Booking.objects.get(pk=pk)
+ 
+    if request.method == 'GET': 
+        bookings_serializer = BookingSerializer(bookings) 
+        return JsonResponse(bookings_serializer.data)
+    
+    elif request.method == 'PUT': 
+        bookings_data = JSONParser().parse(request) 
+        bookings_serializer = BookingSerializer(bookings, data=bookings_data) 
+        if bookings_serializer.is_valid(): 
+            bookings_serializer.save() 
+            return JsonResponse(bookings_serializer.data) 
+        return JsonResponse(bookings_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE': 
+        Booking.delete() 
+        return JsonResponse({'message': 'Service Provider was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+        
+@api_view(['GET'])
+def bookings_list_published(request):
+    # GET all published bookings
+
+    bookings = Booking.objects.filter(published=True)
+        
+    if request.method == 'GET': 
+        bookings_serializer = BookingSerializer(bookings, many=True)
+        return JsonResponse(bookings_serializer.data, safe=False)
