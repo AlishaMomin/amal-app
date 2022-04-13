@@ -224,3 +224,70 @@ def bookings_list_published(request):
     if request.method == 'GET': 
         bookings_serializer = BookingSerializer(bookings, many=True)
         return JsonResponse(bookings_serializer.data, safe=False)
+
+# Listing API GET, POST, PUT, DELETE
+
+@api_view(['GET', 'POST', 'DELETE'])
+def listing_list(request):
+    # GET list of Listings, POST a new Listing, DELETE all Listing
+
+    if request.method == 'GET':
+        listings = Listing.objects.all()
+        
+        title = request.GET.get('title', None)
+        if title is not None:
+            listings = listings.filter(title__icontains=title)
+        
+        listings_serializer = ListingSerializer(listings, many=True)
+        return JsonResponse(listings_serializer.data, safe=False)
+        # 'safe=False' for objects serialization
+
+    elif request.method == 'POST':
+        listings_data = JSONParser().parse(request)
+        listings_serializer = ListingSerializer(data=listings_data)
+        if listings_serializer.is_valid():
+            listings_serializer.save()
+            return JsonResponse(listings_serializer.data, status=status.HTTP_201_CREATED) 
+        return JsonResponse(listings_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        count = Listing.objects.all().delete()
+        return JsonResponse({'message': '{} Listings were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def listings_detail(request, pk):
+    # find listings by pk (id)
+    try: 
+        listings = Listing.objects.get(pk=pk) 
+    except Booking.DoesNotExist: 
+        return JsonResponse({'message': 'The Listing does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+ 
+    # GET / PUT / DELETE listings
+    # ... listings = Listing.objects.get(pk=pk)
+ 
+    if request.method == 'GET': 
+        listings_serializer = ListingSerializer(listings) 
+        return JsonResponse(listings_serializer.data)
+    
+    elif request.method == 'PUT': 
+        listings_data = JSONParser().parse(request) 
+        listings_serializer = ListingSerializer(listings, data=listings_data) 
+        if listings_serializer.is_valid(): 
+            listings_serializer.save() 
+            return JsonResponse(listings_serializer.data) 
+        return JsonResponse(listings_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE': 
+        Listing.delete()
+        return JsonResponse({'message': 'Listing was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+        
+@api_view(['GET'])
+def listings_list_published(request):
+    # GET all published bookings
+
+    listings = Listing.objects.filter(published=True)
+        
+    if request.method == 'GET': 
+        listings_serializer = ListingSerializer(listings, many=True)
+        return JsonResponse(listings_serializer.data, safe=False)
