@@ -3,7 +3,19 @@ from .models import *
 
 # Register your models here.
 
-admin.site.register(Booking)
-admin.site.register(Customer)
-admin.site.register(ServiceProviders)
-admin.site.register(Listing)
+class BookingAdmin(admin.ModelAdmin):
+    list_display = ('bookingDate', 'bookingSlot', 'serviceType', 'ServiceProviderID')
+
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('fullNameCustomer', 'cnicCustomer', 'addressCustomer', 'cityCustomer', 'dobCustomer')
+
+class ServiceProvidersAdmin(admin.ModelAdmin):
+    list_display = ('fullNameSP', 'cnicSP', 'addressSP' , 'citySP', 'dobSP' , 'languageSP')
+
+class ListingAdmin(admin.ModelAdmin):
+    list_display = ('Charges', 'serviceType')
+
+admin.site.register(Booking, BookingAdmin)
+admin.site.register(Customer, CustomerAdmin)
+admin.site.register(ServiceProviders, ServiceProvidersAdmin)
+admin.site.register(Listing, ListingAdmin)
