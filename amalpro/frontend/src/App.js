@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 class App extends Component {
   constructor(props) {
@@ -10,9 +12,12 @@ class App extends Component {
       todoList: [],
       modal: false,
       activeItem: {
-        title: "",
-        description: "",
-        completed: false,
+        fullNameCustomer: "",
+        cnicCustomer: "", 
+        addressCustomer: "", 
+        cityCustomer: "", 
+        dobCustomer: "", 
+        ReviewCustomer: "",
       },
     };
   }
@@ -23,7 +28,7 @@ class App extends Component {
 
   refreshList = () => {
     axios
-      .get("/api/customers/")
+      .get("/api/customers")
       .then((res) => this.setState({ todoList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -37,23 +42,23 @@ class App extends Component {
 
     if (item.id) {
       axios
-        .put(`/api/customers/${item.id}/`, item)
+        .put(`/api/customers/${item.id}`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("/api/customers/", item)
+      .post("/api/customers", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/api/customers/${item.id}/`)
+      .delete(`/api/customers/${item.id}`)
       .then((res) => this.refreshList());
   };
 
   createItem = () => {
-    const item = { title: "", description: "", completed: false };
+    const item = { fullNameCustomer: "", cnicCustomer: "", addressCustomer: "", cityCustomer: "", dobCustomer: "", ReviewCustomer: "" };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
@@ -138,7 +143,7 @@ class App extends Component {
                   className="btn btn-primary"
                   onClick={this.createItem}
                 >
-                  Add task
+                  Add Customer
                 </button>
               </div>
               {this.renderTabList()}

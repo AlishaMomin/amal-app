@@ -36,41 +36,74 @@ export default class CustomModal extends Component {
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Todo Item</ModalHeader>
+        <ModalHeader toggle={toggle}>Customer Item</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="todo-title">Title</Label>
+              <Label for="customer-name">Full Name</Label>
               <Input
                 type="text"
-                id="todo-title"
-                name="title"
-                value={this.state.activeItem.title}
+                id="customer-name"
+                name="name"
+                value={this.state.activeItem.fullNameCustomer}
                 onChange={this.handleChange}
-                placeholder="Enter Todo Title"
+                placeholder="Enter Customers Full Name"
               />
             </FormGroup>
             <FormGroup>
-              <Label for="todo-description">Description</Label>
+              <Label for="customer-cnic">CNIC Number</Label>
               <Input
                 type="text"
-                id="todo-description"
-                name="description"
-                value={this.state.activeItem.description}
+                id="customer-cnic"
+                name="cnic"
+                value={this.state.activeItem.cnicCustomer}
                 onChange={this.handleChange}
-                placeholder="Enter Todo description"
+                placeholder="42201-3748392-7"
               />
             </FormGroup>
-            <FormGroup check>
-              <Label check>
-                <Input
-                  type="checkbox"
-                  name="completed"
-                  checked={this.state.activeItem.completed}
-                  onChange={this.handleChange}
-                />
-                Completed
-              </Label>
+            <FormGroup>
+              <Label for="customer-address">Address</Label>
+              <Input
+                type="text"
+                id="customer-address"
+                name="address"
+                value={this.state.activeItem.addressCustomer}
+                onChange={this.handleChange}
+                placeholder="A-245, Block-5, Gulshan-e-Iqbal"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="customer-city">City</Label>
+              <Input
+                type="text"
+                id="customer-city"
+                name="city"
+                value={this.state.activeItem.cityCustomer}
+                onChange={this.handleChange}
+                placeholder="Karachi"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="customer-date">Date of Birth</Label>
+              <Input
+                type="date"
+                id="customer-dob"
+                name="dob"
+                value={this.state.activeItem.dobCustomer}
+                onChange={this.handleChange}
+                placeholder="07/12/1999"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="customer-review">Reviews</Label>
+              <Input
+                type="text"
+                id="customer-review"
+                name="review"
+                value={this.state.activeItem.ReviewCustomer}
+                onChange={this.handleChange}
+                placeholder="Say Something!"
+              />
             </FormGroup>
           </Form>
         </ModalBody>
