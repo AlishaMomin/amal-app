@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -11,4 +13,5 @@ urlpatterns = [
     path('api/customer', views.postCustomer, name = "post_customer"),
     path('api/booking', views.postBooking, name = "post_booking"),
     path('api/sp', views.postServiceprovider, name = "post_sp")
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

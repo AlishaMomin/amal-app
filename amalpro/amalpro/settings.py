@@ -15,10 +15,8 @@ from djongo import *
 from urllib.parse import quote_plus
 import os
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -30,7 +28,6 @@ SECRET_KEY = 'django-insecure-z*$+0ons02q(7@7-*7tqmwb)4od$51mpqedmrnwo+3nt0^t5&h
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -48,7 +45,6 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-
 MIDDLEWARE = [
     # CORS
     'corsheaders.middleware.CorsMiddleware',
@@ -59,7 +55,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 CORS_ORIGIN_ALLOW_ALL = False
@@ -87,7 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'amalpro.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -113,7 +107,6 @@ DATABASES = {
    }
 }
 
-
 # mongodb+srv://hammad:hammad123@amal.wo6qq.mongodb.net/amaldb?retryWrites=true&w=majority
 
 # Password validation
@@ -134,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -146,11 +138,15 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    '/var/www/static/',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
