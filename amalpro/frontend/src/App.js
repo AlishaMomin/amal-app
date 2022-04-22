@@ -1,23 +1,23 @@
 import React, { Component } from "react";
-import Modal from "./components/Modal";
+import Modal from "./components/New-Modal";
 import axios from "axios";
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewCompleted: false,
+      viewCompleted: true,
       todoList: [],
       modal: false,
       activeItem: {
-        fullNameCustomer: "",
-        cnicCustomer: "", 
-        addressCustomer: "", 
-        cityCustomer: "", 
-        dobCustomer: "", 
-        ReviewCustomer: "",
+        fullNameCustomer: '',
+        cnicCustomer: '', 
+        addressCustomer: '', 
+        cityCustomer: '', 
+        dobCustomer: '', 
+        ReviewCustomer: '',
       },
     };
   }
@@ -68,11 +68,7 @@ class App extends Component {
   };
 
   displayCompleted = (status) => {
-    if (status) {
-      return this.setState({ viewCompleted: true });
-    }
-
-    return this.setState({ viewCompleted: false });
+    return this.setState({ viewCompleted: true });
   };
 
   renderTabList = () => {
@@ -82,23 +78,15 @@ class App extends Component {
           onClick={() => this.displayCompleted(true)}
           className={this.state.viewCompleted ? "nav-link active" : "nav-link"}
         >
-          Complete
-        </span>
-        <span
-          onClick={() => this.displayCompleted(false)}
-          className={this.state.viewCompleted ? "nav-link" : "nav-link active"}
-        >
-          Incomplete
+          Customers List
         </span>
       </div>
     );
   };
 
   renderItems = () => {
-    const { viewCompleted } = this.state;
-    const newItems = this.state.todoList.filter(
-      (item) => item.completed === viewCompleted
-    );
+    // const { viewCompleted } = this.state;
+    const newItems = this.state.todoList;
 
     return newItems.map((item) => (
       <li
@@ -109,9 +97,25 @@ class App extends Component {
           className={`todo-title mr-2 ${
             this.state.viewCompleted ? "completed-todo" : ""
           }`}
-          title={item.description}
+          title={item.fullNameCustomer}
         >
-          {item.title}
+          {item.fullNameCustomer}
+        </span>
+        <span
+          className={`todo-title mr-2 ${
+            this.state.viewCompleted ? "completed-todo" : ""
+          }`}
+          title={item.cityCustomer}
+        >
+          {item.cityCustomer}
+        </span>
+        <span
+          className={`todo-title mr-2 ${
+            this.state.viewCompleted ? "completed-todo" : ""
+          }`}
+          title={item.cnicCustomer}
+        >
+          {item.cnicCustomer}
         </span>
         <span>
           <button

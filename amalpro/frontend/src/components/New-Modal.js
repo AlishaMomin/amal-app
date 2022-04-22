@@ -11,6 +11,17 @@ import {
   Label,
 } from "reactstrap";
 
+class CustomerComponent extends React.Component{
+  constructor(props){
+    super(props);
+    this.state= {
+      customer:{
+        
+      }
+    };
+  }
+}
+
 export default class CustomModal extends Component {
   constructor(props) {
     super(props);
@@ -19,18 +30,15 @@ export default class CustomModal extends Component {
     };
   }
 
-  handleChange = (e) => {
-    let { name, defaultvalue } = e.target;
+  changeHandler = e => {
+    this.setState({
+      Id:e.target.value
+    });
+  }
 
-    // if (e.target.type === "checkbox") {
-    //   value = e.target.checked;
-    // }
-
-    const activeItem = { ...this.state.activeItem, [name]: defaultvalue};
-    this.setState({ activeItem });
-  };
-  
-  onChange = (event) => this.setState({ value: event.target.value });
+  onCreateCustomer=()=>{
+    console.log(this.state.Id);
+  }
 
   render() {
     const { toggle, onSave } = this.props;
@@ -47,7 +55,7 @@ export default class CustomModal extends Component {
                 id="customer-name"
                 name="name"
                 defaultvalue={this.state.value}
-                onChange={this.handleChange}
+                onChange={this.onChange}
                 placeholder="Enter Customers Full Name"
               />
             </FormGroup>
@@ -58,7 +66,7 @@ export default class CustomModal extends Component {
                 id="customer-cnic"
                 name="cnic"
                 defaultvalue={this.state.activeItem.value}
-                onChange={this.handleChange}
+                onChange={this.onChange}
                 placeholder="42201-3748392-7"
               />
             </FormGroup>
@@ -69,7 +77,7 @@ export default class CustomModal extends Component {
                 id="customer-address"
                 name="address"
                 defaultvalue={this.state.activeItem.value}
-                onChange={this.handleChange}
+                onChange={this.onChange}
                 placeholder="A-245, Block-5, Gulshan-e-Iqbal"
               />
             </FormGroup>
@@ -80,7 +88,7 @@ export default class CustomModal extends Component {
                 id="customer-city"
                 name="city"
                 defaultvalue={this.state.activeItem.value}
-                onChange={this.handleChange}
+                onChange={this.onChange}
                 placeholder="Karachi"
               />
             </FormGroup>
@@ -91,7 +99,7 @@ export default class CustomModal extends Component {
                 id="customer-dob"
                 name="dob"
                 defaultvalue={this.state.activeItem.value}
-                onChange={this.handleChange}
+                onChange={this.onChange}
                 placeholder="07/12/1999"
               />
             </FormGroup>
@@ -102,7 +110,7 @@ export default class CustomModal extends Component {
                 id="customer-review"
                 name="review"
                 defaultvalue={this.state.activeItem.value}
-                onChange={this.handleChange}
+                onChange={this.onChange}
                 placeholder="Say Something!"
               />
             </FormGroup>
@@ -125,7 +133,7 @@ export default class CustomModal extends Component {
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => onSave(this.state.activeItem)}
+            onClick={this.onCreateCustomer}
           >
             Save
           </Button>

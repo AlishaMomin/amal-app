@@ -6,6 +6,8 @@ from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import *
 from .serializers import *
 
@@ -26,6 +28,7 @@ def ApiOverview(request):
 # Customer API GET, POST, PUT, DELETE
 
 @api_view(['GET', 'POST', 'DELETE'])
+@csrf_exempt
 def customer_list(request):
     # GET list of Customers, POST a new Customer, DELETE all Customers
 
@@ -37,6 +40,7 @@ def customer_list(request):
             customers = customers.filter(title__icontains=title)
         
         customers_serializer = CustomerSerializer(customers, many=True)
+        # print(customers_serializer.errors)
         return JsonResponse(customers_serializer.data, safe=False)
         # 'safe=False' for objects serialization
 
@@ -45,7 +49,9 @@ def customer_list(request):
         customer_serializer = CustomerSerializer(data=customer_data)
         if customer_serializer.is_valid():
             customer_serializer.save()
-            return JsonResponse(customer_serializer.data, status=status.HTTP_201_CREATED) 
+            print(customer_serializer.errors)
+            return JsonResponse(customer_serializer.data, status=status.HTTP_201_CREATED)
+        print(customer_serializer.errors)
         return JsonResponse(customer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
@@ -54,6 +60,7 @@ def customer_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@csrf_exempt
 def customer_detail(request, pk):
     # find customer by pk (id)
     try: 
@@ -65,15 +72,17 @@ def customer_detail(request, pk):
     # ... customer = Customer.objects.get(pk=pk)
  
     if request.method == 'GET': 
-        customer_serializer = CustomerSerializer(customer) 
+        customer_serializer = CustomerSerializer(customer)
+        print(customer_serializer.errors)
         return JsonResponse(customer_serializer.data)
     
     elif request.method == 'PUT': 
         customer_data = JSONParser().parse(request) 
         customer_serializer = CustomerSerializer(customer, data=customer_data) 
         if customer_serializer.is_valid(): 
-            customer_serializer.save() 
-            return JsonResponse(customer_serializer.data) 
+            customer_serializer.save()
+            return JsonResponse(customer_serializer.data)
+        print(customer_serializer.errors)
         return JsonResponse(customer_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE': 
@@ -82,6 +91,7 @@ def customer_detail(request, pk):
     
         
 @api_view(['GET'])
+@csrf_exempt
 def customer_list_published(request):
     # GET all published Customer
 
@@ -94,6 +104,7 @@ def customer_list_published(request):
 # Service Providers API GET, POST, PUT, DELETE
 
 @api_view(['GET', 'POST', 'DELETE'])
+@csrf_exempt
 def serviceproviders_list(request):
     # GET list of ServiceProviders, POST a new ServiceProvider, DELETE all ServiceProviders
 
@@ -122,6 +133,7 @@ def serviceproviders_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@csrf_exempt
 def serviceproviders_detail(request, pk):
     # find serviceproviders by pk (id)
     try: 
@@ -149,6 +161,7 @@ def serviceproviders_detail(request, pk):
         return JsonResponse({'message': 'Service Provider was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
         
 @api_view(['GET'])
+@csrf_exempt
 def serviceproviders_list_published(request):
     # GET all published ServiceProviders
 
@@ -161,6 +174,7 @@ def serviceproviders_list_published(request):
 # Booking API GET, POST, PUT, DELETE
 
 @api_view(['GET', 'POST', 'DELETE'])
+@csrf_exempt
 def booking_list(request):
     # GET list of Bookings, POST a new Booking, DELETE all Bookings
 
@@ -189,6 +203,7 @@ def booking_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@csrf_exempt
 def bookings_detail(request, pk):
     # find Bookings by pk (id)
     try: 
@@ -216,6 +231,7 @@ def bookings_detail(request, pk):
         return JsonResponse({'message': 'Service Provider was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
         
 @api_view(['GET'])
+@csrf_exempt
 def bookings_list_published(request):
     # GET all published bookings
 
@@ -228,9 +244,10 @@ def bookings_list_published(request):
 # Listing API GET, POST, PUT, DELETE
 
 @api_view(['GET', 'POST', 'DELETE'])
+@csrf_exempt
 def listing_list(request):
     # GET list of Listings, POST a new Listing, DELETE all Listing
-
+    
     if request.method == 'GET':
         listings = Listing.objects.all()
         
@@ -256,6 +273,7 @@ def listing_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@csrf_exempt
 def listings_detail(request, pk):
     # find listings by pk (id)
     try: 
@@ -283,6 +301,7 @@ def listings_detail(request, pk):
         return JsonResponse({'message': 'Listing was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
         
 @api_view(['GET'])
+@csrf_exempt
 def listings_list_published(request):
     # GET all published bookings
 
