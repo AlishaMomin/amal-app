@@ -30,14 +30,12 @@
             </tr>
         </thead>
         <tbody>
-        {% for booking in serviceproviders %}
+        {% for booking in bookings %}
         <tr>
-            <td>{{SP.fullNameSP}}</td>
-            <td>{{SP.cnicSP}}</td>
-            <td>{{SP.addressSP}}</td>
-            <td>{{SP.citySP}}</td>
-            <td>{{SP.dobSP | date:"m-d-Y"}}</td>
-            <td>{{SP.languageSP}}</td>
+            <td>{{booking.bookingDate}}</td>
+            <td>{{booking.bookingSlot}}</td>
+            <td>{{booking.serviceType}}</td>
+            <td>{{booking.ServiceProviderID}}</td>
         </tr>
         {% endfor %}
         </tbody>
@@ -75,12 +73,11 @@
                 var fields = instance[0]["fields"];
                 $("#booking tbody").prepend(
                     `<tr>
-                    <td>${fields["fullNameSP"]||""}</td>
-                    <td>${fields["cnicSP"]||""}</td>
-                    <td>${fields["addressSP"]||""}</td>
-                    <td>${fields["citySP"]||""}</td>
-                    <td>${fields["dobSP"]||""}</td>
-                    <td>${fields["languageSP"]||""}</td>
+                    <td>${fields["bookingDate"]||""}</td>
+                    <td>${fields["bookingSlot"]||""}</td>
+                    <td>${fields["serviceType"]||""}</td>
+                    <td>${fields["ServiceProviderID"]||""}</td>
+                    
                     </tr>`
                 )
             },
