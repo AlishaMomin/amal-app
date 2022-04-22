@@ -24,6 +24,8 @@ urlpatterns = [
     path('api/booking', views.postBooking, name = "post_booking"),
     
     path('serviceprovider/', views.serviceprovider, name='serviceprovider'),
+    path('viewSP/', views.viewserviceprovider, name='viewserviceprovider'),
+
     path('api/sp', views.postServiceprovider, name = "post_sp"),
     
     path('test/', views.test, name = "test"),

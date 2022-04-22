@@ -106,6 +106,10 @@ def serviceprovider(request):
 
     return render(request, "serviceprovider.html", {"form": form, "serviceproviders": SP})
 
+def viewserviceprovider(request):
+    viewSP = ServiceProviders.objects.all()[:1].get()
+    return render(request, "viewserviceprovider.html", {"viewserviceproviders": viewSP})
+  
 def booking(request):
     form = BookingForm()
     bookings = Booking.objects.all()
