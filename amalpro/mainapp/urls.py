@@ -9,5 +9,6 @@ urlpatterns = [
     path('booking/', views.booking, name='booking'),
     path('serviceprovider/', views.serviceprovider, name='serviceprovider'),
     path('api/customer', views.postCustomer, name = "post_customer"),
+    path('api/booking', views.postBooking, name = "post_booking"),
     path('api/sp', views.postServiceprovider, name = "post_sp")
 ]

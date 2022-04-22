@@ -23,6 +23,7 @@ virtualenv venv
 ### Active your virtual environment:    
 ```
 source venv/bin/activate
+./venv/Scripts/Activate
 ```
 ### Install required depemddencies:    
 ```
