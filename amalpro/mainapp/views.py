@@ -2,12 +2,16 @@ from django.http import HttpResponse
 from django.shortcuts import render ,redirect
 from django.http import JsonResponse
 from django.core import serializers
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm #add this
 from .forms import *
 from api.models import *
 
+def logout_request(request):
+	logout(request)
+	messages.info(request, "You have successfully logged out.") 
+	return redirect("dashboard")
 
 def login_request(request):
 	if request.method == "POST":
@@ -19,7 +23,7 @@ def login_request(request):
 			if user is not None:
 				login(request, user)
 				messages.info(request, f"You are now logged in as {username}.")
-				return redirect("main:homepage")
+				return redirect("dashboard")
 			else:
 				messages.error(request,"Invalid username or password.")
 		else:
@@ -34,7 +38,7 @@ def register_request(request):
 			user = form.save()
 			login(request, user)
 			messages.success(request, "Registration successful." )
-			return redirect("main:homepage")
+			return redirect("login")
 		messages.error(request, "Unsuccessful registration. Invalid information.")
 	form = NewUserForm()
 	return render (request=request, template_name="register.html", context={"register_form":form})
