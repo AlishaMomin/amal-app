@@ -11,6 +11,7 @@ urlpatterns = [
     path('booking/', views.booking, name='booking'),
     path('serviceprovider/', views.serviceprovider, name='serviceprovider'),
     path('api/customer', views.postCustomer, name = "post_customer"),
-    path('api/sp', views.postServiceprovider, name = "post_sp")
+    path('api/sp', views.postServiceprovider, name = "post_sp"),
+    path('test/', views.test, name = "test"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
