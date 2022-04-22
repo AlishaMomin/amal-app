@@ -23,5 +23,6 @@ admin.site.index_title = "Welcome to Amal Admin Portal"
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-    path('', include('mainapp.urls'))
+    path('', include('mainapp.urls')),
+    
 ]
