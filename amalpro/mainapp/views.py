@@ -18,8 +18,24 @@ def customers(request):
     customers = Customer.objects.all()
 
     return render(request, "customer.html", {"form": form, "customers": customers})
-    
 
+
+def listing(request):
+    form = ListingForm()
+    listings = Listing.objects.all()
+
+    return render(request, "listing.html", {"form": form, "listings": listings})
+
+def serviceprovider(request):
+    form = ServiceproviderForm()
+    SP = ServiceProviders.objects.all()
+
+    return render(request, "serviceprovider.html", {"form": form, "serviceproviders": SP})
+def booking(request):
+    form = BookingForm()
+    bookings = Booking.objects.all()
+    return render(request, "booking.html", {"form": form, "bookings": bookings})
+    
 def postCustomer(request):
     # request should be ajax and method should be POST.
     if request.accepts and request.method == "POST":
