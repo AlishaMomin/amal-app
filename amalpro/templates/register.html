@@ -1,18 +1,43 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block content %} 
+{% block links %}
 
-{% load crispy_forms_tags %}         
+<link href="{% static 'css/login.css' %}" rel="stylesheet" />
 
-<!--Register--> 
-<div class="container py-5">
-	<h1>Register</h1>
-	<form method="POST">
-		{% csrf_token %}
-		{{ register_form|crispy }}                    
-		<button class="btn btn-primary" type="submit">Register</button>
-	</form>
-	<p class="text-center">If you already have an account, <a href="{% url 'login' %}">login</a> instead.</p>
-</div>
+{% endblock links %}
+
+{% block style %} {% endblock style %}
+
+{% block content %}      
+
+{% load crispy_forms_tags %}
+
+<!--Login--> 
+<main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
+  <div class="container">
+    <div class="auth">
+      <div class="auth-container">
+        <div class="auth-logo align-items-center">
+          <img src="{% static 'assets/img/amall-logo.png' %}" href="{% url 'homepage' %}" alt="logo" class="logo">
+        </div>
+        <form action="" method="POST" class="auth-form">
+          {% csrf_token %}
+          <h1>Register</h1>
+            {% for field in register_form %}
+              <div class="auth-input">
+                  <label>{{ field.label }}</label>
+                  {{ field }}
+              </div>
+            {% endfor %}
+          <a href="{% url 'password_reset' %}" class="auth-reset">Forgot Password?</a>
+          <button type="submit" name="submit" class="auth-btn">Register Now</button>
+        </form>
+        <div class="auth-bottom">
+			If you already have an account, <a href="{% url 'login' %}">login &nbsp </a> instead.
+        </div>
+      </div>
+    </div>
+  </main>
 
 {% endblock %}

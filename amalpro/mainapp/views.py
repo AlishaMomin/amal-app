@@ -81,11 +81,17 @@ def register_request(request):
 	form = NewUserForm()
 	return render (request=request, template_name="register.html", context={"register_form":form})
 
-def dashboard(request):
+def homepage(request):
     return render(request, "index.html")
+
+def prompt(request):
+    return render(request, "prompt.html")
 
 def test(request):
     return render(request, "test.html")
+
+def customerdashboard(request):
+    return render(request, "customer-dashboard.html")
 
 def customers(request):
     form = CustomerForm()
