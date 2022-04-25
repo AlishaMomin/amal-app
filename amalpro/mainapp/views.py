@@ -38,7 +38,7 @@ def password_reset_request(request):
 					}
 					email = render_to_string(email_template_name, c)
 					try:
-						send_mail(subject, email, 'admin@example.com' , [user.email], fail_silently=False)
+						send_mail(subject, email, 'admin@digitaro.co' , [user.email], fail_silently=False)
 					except BadHeaderError:
 						return HttpResponse('Invalid header found.')
 					return redirect ("/password_reset/done/")
@@ -49,7 +49,7 @@ def password_reset_request(request):
 def logout_request(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.") 
-	return redirect("dashboard")
+	return redirect("homepage")
 
 def login_request(request):
 	if request.method == "POST":
@@ -61,7 +61,7 @@ def login_request(request):
 			if user is not None:
 				login(request, user)
 				messages.info(request, f"You are now logged in as {username}.")
-				return redirect("dashboard")
+				return redirect("customerdashboard")
 			else:
 				messages.error(request,"Invalid username or password.")
 		else:
@@ -92,6 +92,20 @@ def test(request):
 
 def customerdashboard(request):
     return render(request, "customer-dashboard.html")
+
+def spdashboard(request):
+    listings = Listing.objects.all()
+    bookings = Booking.objects.all()
+    formBooking = BookingForm()
+    formListing = ListingForm()
+    
+    return render(request, "sp-dashboard.html", 
+    {   
+        "formListing" : formListing,
+        "formBooking" : formBooking,
+        "listings" : listings,
+        "bookings" : bookings
+    })
 
 def customers(request):
     form = CustomerForm()

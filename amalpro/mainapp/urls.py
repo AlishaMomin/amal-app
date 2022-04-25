@@ -15,6 +15,7 @@ urlpatterns = [
     path("password_reset", views.password_reset_request, name="password_reset"),
 
     path("customer_dashboard", views.customerdashboard, name="customerdashboard"),
+    path("sp_dashboard", views.spdashboard, name="spdashboard"),
 
     path('customers/', views.customers, name='customers'),
     path('api/customer', views.postCustomer, name = "post_customer"),

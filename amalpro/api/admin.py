@@ -4,7 +4,7 @@ from .models import *
 # Register your models here.
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display = ('bookingDate', 'bookingSlot', 'serviceType', 'ServiceProviderID')
+    list_display = ('bookingDate', 'bookingSlot', 'serviceType', 'SProvider')
 
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('fullNameCustomer', 'cnicCustomer', 'addressCustomer', 'cityCustomer', 'dobCustomer')

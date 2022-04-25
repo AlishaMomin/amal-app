@@ -57,7 +57,7 @@ class ServiceproviderForm(forms.ModelForm):
 
 class BookingForm(forms.ModelForm):
     bookingDate = forms.DateField(
-        label='When do you want to date an appointment?', 
+        label='When do you want to book an appointment?', 
         widget=forms.SelectDateWidget(years=range(2022, datetime.date.today().year-5))
     )
     def __init__(self, *args, **kwargs):

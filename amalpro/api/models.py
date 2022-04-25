@@ -1,4 +1,6 @@
 from django.db import models
+from djongo import models
+
 
 # Create your models here.
 
@@ -14,6 +16,7 @@ class Customer(models.Model):
         return str(self.fullNameCustomer) + ", " + str(self.cityCustomer) 
 
 class ServiceProviders(models.Model):
+    ServiceProviderID = models.BigAutoField(primary_key=True)
     fullNameSP = models.CharField(max_length=255)
     cnicSP = models.CharField(max_length=13)
     addressSP = models.CharField(max_length=255)
@@ -25,15 +28,19 @@ class ServiceProviders(models.Model):
     )
     languageSP = models.CharField(max_length=3, choices=MY_LANG_CHOICES)
     
-    
     def __str__(self):
         return str(self.fullNameSP) + ", " + str(self.citySP) 
 
 class Booking(models.Model):
-    bookingDate = models.CharField(max_length=30)
-    bookingSlot = models.CharField(max_length=30)
+    bookingDate = models.DateField()
+    BK_SLOT = (
+        ('mor', 'Morning'),
+        ('aft', 'Afternoon'),
+        ('eve', 'Evening'),
+    )
+    bookingSlot = models.CharField(max_length=3, choices=BK_SLOT)
     serviceType = models.CharField(max_length=30)
-    ServiceProviderID = models.CharField(max_length=30)
+    SProvider = models.CharField(max_length=30)
 
     def __str__(self):
         return str(self.bookingDate) + " | Slot - " + str(self.bookingSlot) + " | Service - " +  str(self.serviceType)
