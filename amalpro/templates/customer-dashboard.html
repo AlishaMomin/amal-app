@@ -12,7 +12,29 @@
 
 {% load crispy_forms_tags %}
 
-  
+<div class="container">
+    <div class="auth">
+      <div class="auth-container">
+        <div class="auth-logo align-items-center">
+          <img src="{% static 'assets/img/amall-logo.png' %}" href="{% url 'homepage' %}" alt="logo" class="logo">
+        </div>
+        <form action="" method="POST" class="auth-form">
+          {% csrf_token %}
+          <h1>Add a booking</h1>
+            {% for field in formBooking %}
+              <div class="auth-input">
+                  <label>{{ field.label }}</label>
+                  {{ field }}
+              </div>
+            {% endfor %}
+          <button type="submit" name="submit" class="auth-btn">Add my details</button>
+        </form>
+        <div class="auth-bottom">
+          Check your bookings <a href="{% url 'booking' %}">Check Now</a>
+          Switch to SP <a href="{% url 'prompt' %}">Switch</a>
+        </div>
+      </div>
+    </div>
 
 {% endblock content %}
 

@@ -61,7 +61,7 @@ def login_request(request):
 			if user is not None:
 				login(request, user)
 				messages.info(request, f"You are now logged in as {username}.")
-				return redirect("customerdashboard")
+				return redirect("prompt")
 			else:
 				messages.error(request,"Invalid username or password.")
 		else:
@@ -91,14 +91,15 @@ def test(request):
     return render(request, "test.html")
 
 def customerdashboard(request):
-    return render(request, "customer-dashboard.html")
+    formBooking = BookingForm()
+    return render(request, "customer-dashboard.html",{"formBooking" : formBooking,})
 
 def spdashboard(request):
     listings = Listing.objects.all()
     bookings = Booking.objects.all()
     formBooking = BookingForm()
     formListing = ListingForm()
-    
+
     return render(request, "sp-dashboard.html", 
     {   
         "formListing" : formListing,
